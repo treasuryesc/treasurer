@@ -133,6 +133,7 @@ Route::group(['prefix' => 'banking'], function () {
     Route::get('transactions/export', 'Banking\Transactions@export')->name('transactions.export');
     Route::resource('transactions', 'Banking\Transactions');
 
+    Route::post('transfers/import', 'Banking\Transfers@import')->name('transfers.import');
     Route::resource('transfers', 'Banking\Transfers', ['middleware' => ['date.format', 'money']]);
 
     Route::post('reconciliations/calculate', 'Banking\Reconciliations@calculate')->middleware(['money']);

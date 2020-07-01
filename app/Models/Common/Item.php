@@ -123,7 +123,7 @@ class Item extends Model
     }
 
     /**
-     * Get the current balance.
+     * Get the picture.
      *
      * @return string
      */

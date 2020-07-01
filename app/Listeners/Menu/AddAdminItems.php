@@ -64,7 +64,7 @@ class AddAdminItems
                 }
 
                 if ($user->can('read-sales-customers')) {
-                    $sub->route('customers.index', trans_choice('general.customers', 2), [], 30, $attr);
+                    $sub->route('customers.index', trans_choice('general.customerdata', 2), [], 3, $attr);
                 }
             }, 30, [
                 'title' => trans_choice('general.sales', 2),
@@ -84,7 +84,7 @@ class AddAdminItems
                 }
 
                 if ($user->can('read-purchases-vendors')) {
-                    $sub->route('vendors.index', trans_choice('general.vendors', 2), [], 30, $attr);
+                    $sub->route('vendors.index', trans_choice('general.vendordata', 2), [], 3, $attr);
                 }
             }, 40, [
                 'title' => trans_choice('general.purchases', 2),

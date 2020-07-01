@@ -5,6 +5,7 @@
 @permission('create-banking-transfers')
     @section('new_button')
         <a href="{{ route('transfers.create') }}" class="btn btn-success btn-sm header-button-top"><span class="fa fa-plus"></span> &nbsp;{{ trans('general.add_new') }}</a>
+        {{-- TODO MAF <span><a href="{{ route('import.create', ['banking', 'transfers']) }}" class="btn btn-white btn-sm header-button-top"><span class="fa fa-upload "></span> &nbsp;{{ trans('import.import') }}</a></span> */ --}}
     @endsection
 @endpermission
 

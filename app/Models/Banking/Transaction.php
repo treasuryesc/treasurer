@@ -10,6 +10,8 @@ use App\Traits\DateTime;
 use App\Traits\Media;
 use App\Traits\Recurring;
 use Bkwld\Cloner\Cloneable;
+use App\Models\Banking\Account;
+use App\Models\Banking\Transfer;
 
 class Transaction extends Model
 {
@@ -24,7 +26,7 @@ class Transaction extends Model
      *
      * @var array
      */
-    protected $fillable = ['company_id', 'type', 'account_id', 'paid_at', 'amount', 'currency_code', 'currency_rate', 'document_id', 'contact_id', 'description', 'category_id', 'payment_method', 'reference', 'parent_id'];
+    protected $fillable = ['company_id', 'type', 'account_id', 'paid_at', 'amount', 'currency_code', 'currency_rate', 'document_id', 'contact_id', 'description', 'category_id', 'payment_method', 'reference', 'parent_id', 'transfer_account'];
 
     /**
      * Sortable columns.
@@ -80,6 +82,11 @@ class Transaction extends Model
         return $this->belongsTo('App\Models\Auth\User', 'contact_id', 'id');
     }
 
+    public function transfer()
+    {
+        return $this->hasOne('App\Models\Banking\Transfer', 'expense_transaction_id', 'id');
+    }
+
     /**
      * Scope to only include contacts of a given type.
      *
@@ -126,7 +133,7 @@ class Transaction extends Model
      */
     public function scopeIsTransfer($query)
     {
-        return $query->where('category_id', '=', Category::transfer());
+        return $query->where('type', '=', 'transfer');
     }
 
     /**
@@ -137,7 +144,7 @@ class Transaction extends Model
      */
     public function scopeIsNotTransfer($query)
     {
-        return $query->where('category_id', '<>', Category::transfer());
+        return $query->where('type', '<>', 'transfer');
     }
 
     /**
@@ -291,7 +298,7 @@ class Transaction extends Model
     }
 
     /**
-     * Get the current balance.
+     * Get the attachment.
      *
      * @return string
      */
@@ -305,4 +312,99 @@ class Transaction extends Model
 
         return $this->getMedia('attachment')->last();
     }
+
+    /**
+     * Get transfer value with + / - signal
+     *
+     * @return double
+     */
+    public function getTransferValueAttribute()
+    {
+        // if has transfer account, it's negative (transfer out)
+        if (!empty($this->transfer_account)) {
+            return - $this->amount;
+        } else {
+            return $this->amount; // positive (transfer in)
+        }
+    }
+
+    /**
+     * Change boot method in order to create transfer 2nd transaction
+     * and Transfer model
+     *
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        Transaction::saved(function($from_transaction)
+        {
+            // check if transfer_account is defined
+            if (empty($from_transaction->transfer_account))
+                return;
+
+            $transfer = Transfer::firstWhere('expense_transaction_id', $from_transaction->id);
+
+            // check if there is a tranfer record for this transaction
+            if (is_null($transfer)) {
+                // create a new transaction for "transfer to" transaction
+                $to_transaction = new Transaction;
+            } else {
+                $to_transaction = Transaction::find($transfer->income_transaction_id);
+            }
+
+            // copy values from origin
+            foreach ($from_transaction->attributes as $key => $value) {
+                if ($key != 'id')
+                    $to_transaction->{$key} = $value;
+            }
+
+            // Convert amount if not same currency
+            $from_currency = Account::where('id', $from_transaction->account_id)->pluck('currency_code')->first();
+            $to_currency = Account::where('id', $from_transaction->transfer_account)->pluck('currency_code')->first();
+            $currencies = Currency::enabled()->pluck('rate', 'code')->toArray();
+
+            if ($from_currency != $to_currency) {
+                $default_currency = setting('default.currency', 'USD');
+
+                $default_amount = $from_transaction->amount;
+
+                if ($default_currency != $from_currency) {
+                    $default_amount_model = new Transfer();
+
+                    $default_amount_model->default_currency_code = $default_currency;
+                    $default_amount_model->amount = $from_transaction->amount;
+                    $default_amount_model->currency_code = $from_currency;
+                    $default_amount_model->currency_rate = $currencies[$from_currency];
+
+                    $default_amount = $default_amount_model->getAmountConvertedToDefault();
+                }
+
+                $transfer_amount = new Transfer();
+
+                $transfer_amount->default_currency_code = $from_currency;
+                $transfer_amount->amount = $default_amount;
+                $transfer_amount->currency_code = $to_currency;
+                $transfer_amount->currency_rate = $currencies[$to_currency];
+
+                $amount = $transfer_amount->getAmountConvertedFromDefault();
+            }
+
+            // ensures that it won't be looping setting transfer_account = null
+            $to_transaction->account_id = $from_transaction->transfer_account;
+            $to_transaction->transfer_account = null;
+            $to_transaction->save();
+
+            // create transfer model
+            if (is_null($transfer)) {
+                Transfer::create([
+                    'company_id' => $from_transaction->company_id,
+                    'expense_transaction_id' => $from_transaction->id,
+                    'income_transaction_id' => $to_transaction->id,
+                ]);
+
+            }
+        });
+    }
+
 }

@@ -41,7 +41,7 @@ abstract class DocumentModel extends Model
     }
 
     /**
-     * Get the current balance.
+     * Get the attachment.
      *
      * @return string
      */

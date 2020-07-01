@@ -27,6 +27,7 @@ class Categories extends Controller
             'expense' => trans_choice('general.expenses', 1),
             'income' => trans_choice('general.incomes', 1),
             'item' => trans_choice('general.items', 1),
+            'transfer' => trans_choice('general.transfers', 1),
             'other' => trans_choice('general.others', 1),
         ]);
 
@@ -54,6 +55,7 @@ class Categories extends Controller
             'expense' => trans_choice('general.expenses', 1),
             'income' => trans_choice('general.incomes', 1),
             'item' => trans_choice('general.items', 1),
+            'transfer' => trans_choice('general.transfers', 1),
             'other' => trans_choice('general.others', 1),
         ];
 
@@ -101,6 +103,7 @@ class Categories extends Controller
             'expense' => trans_choice('general.expenses', 1),
             'income' => trans_choice('general.incomes', 1),
             'item' => trans_choice('general.items', 1),
+            'transfer' => trans_choice('general.transfers', 1),
             'other' => trans_choice('general.others', 1),
         ];
 

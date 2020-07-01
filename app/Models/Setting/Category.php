@@ -37,6 +37,11 @@ class Category extends Model
         return $this->transactions()->where('type', 'income');
     }
 
+    public function transfer_transactions()
+    {
+        return $this->transactions()->where('type', 'transfer');
+    }
+
     public function invoices()
     {
         return $this->hasMany('App\Models\Sale\Invoice');
@@ -125,6 +130,6 @@ class Category extends Model
      */
     public function scopeTransfer($query)
     {
-        return (int) $query->other()->pluck('id')->first();
+        return $query->where($this->table . '.type', '=', 'transfer')->pluck('id')->first();
     }
 }

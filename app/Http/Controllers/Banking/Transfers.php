@@ -12,6 +12,8 @@ use App\Models\Banking\Transfer;
 use App\Models\Setting\Currency;
 use App\Utilities\Modules;
 use Date;
+use App\Http\Requests\Common\Import as ImportRequest;
+use App\Imports\Banking\Transfers as Import;
 
 class Transfers extends Controller
 {
@@ -218,4 +220,23 @@ class Transfers extends Controller
 
         return response()->json($response);
     }
+
+    /**
+     * Import the specified resource.
+     *
+     * @param  ImportRequest  $request
+     *
+     * @return Response
+     */
+    public function import(ImportRequest $request)
+    {
+        \Excel::import(new Import(), $request->file('import'));
+
+        $message = trans('messages.success.imported', ['type' => trans_choice('general.transactions', 2)]);
+
+        flash($message)->success();
+
+        return redirect()->route('transactions.index');
+}
+
 }

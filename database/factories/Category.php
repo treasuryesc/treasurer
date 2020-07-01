@@ -10,7 +10,7 @@ $company = $user->companies()->first();
 $factory->define(Category::class, function (Faker $faker) use ($company) {
     setting()->setExtraColumns(['company_id' => $company->id]);
 
-    $types = ['income', 'expense', 'item', 'other'];
+    $types = ['income', 'expense', 'transfer', 'item', 'other'];
 
     return [
         'company_id' => $company->id,
@@ -28,6 +28,8 @@ $factory->state(Category::class, 'disabled', ['enabled' => 0]);
 $factory->state(Category::class, 'income', ['type' => 'income']);
 
 $factory->state(Category::class, 'expense', ['type' => 'expense']);
+
+$factory->state(Category::class, 'transfer', ['type' => 'transfer']);
 
 $factory->state(Category::class, 'item', ['type' => 'item']);
 

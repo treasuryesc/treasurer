@@ -53,6 +53,11 @@ class Currency extends Model
         return $this->transactions()->where('type', 'income');
     }
 
+    public function transfer_transactions()
+    {
+        return $this->transactions()->where('type', 'transfer');
+    }
+
     public function invoices()
     {
         return $this->hasMany('App\Models\Sale\Invoice', 'currency_code', 'code');

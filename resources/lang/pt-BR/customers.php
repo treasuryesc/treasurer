@@ -2,7 +2,7 @@
 
 return [
 
-    'can_login'             => 'Pode Logar?',
+    'can_login'             => 'Pode fazer login?',
     'user_created'          => 'Usuário criado',
 
     'error' => [
