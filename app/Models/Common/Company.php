@@ -111,6 +111,11 @@ class Company extends Eloquent
         return $this->transactions()->where('type', 'income');
     }
 
+    public function transfer_transactions()
+    {
+        return $this->transactions()->where('type', 'transfer');
+    }
+
     public function invoices()
     {
         return $this->hasMany('App\Models\Sale\Invoice');
@@ -319,7 +324,7 @@ class Company extends Eloquent
     }
 
     /**
-     * Get the current balance.
+     * Get the company logo.
      *
      * @return string
      */

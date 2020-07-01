@@ -182,7 +182,7 @@ class Reconciliations extends Controller
 
         $transactions = Transaction::where('account_id', $account->id)->whereBetween('paid_at', [$started[0], $ended[0]])->get();
 
-        return collect($transactions)->sortByDesc('paid_at');
+        return collect($transactions)->sortBy('paid_at');
     }
 
     /**
@@ -208,6 +208,12 @@ class Reconciliations extends Controller
         $transactions = $account->expense_transactions()->whereDate('paid_at', '<', $started_at)->get();
         foreach ($transactions as $item) {
             $total -= $item->amount;
+        }
+
+        // Sum transfer transactions
+        $transactions = $account->transfer_transactions()->whereDate('paid_at', '<', $started_at)->get();
+        foreach ($transactions as $item) {
+            $total += $item->transfer_value;
         }
 
         return $total;

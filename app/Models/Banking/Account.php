@@ -44,6 +44,11 @@ class Account extends Model
         return $this->transactions()->where('type', 'income');
     }
 
+    public function transfer_transactions()
+    {
+        return $this->transactions()->where('type', 'transfer');
+    }
+
     public function transactions()
     {
         return $this->hasMany('App\Models\Banking\Transaction');
@@ -85,6 +90,9 @@ class Account extends Model
 
         // Subtract Expenses
         $total -= $this->expense_transactions->sum('amount');
+
+        // Sum transfers
+        $total += $this->transfer_transactions->sum('transfer_value');
 
         return $total;
     }

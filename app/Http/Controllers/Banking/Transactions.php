@@ -22,10 +22,10 @@ class Transactions extends Controller
     {
         $accounts = Account::enabled()->orderBy('name')->pluck('name', 'id');
 
-        $types = collect(['expense' => 'Expense', 'income' => 'Income'])
+        $types = collect(['expense' => 'Expense', 'income' => 'Income', 'transfer' => 'Transfer'])
             ->prepend(trans('general.all_type', ['type' => trans_choice('general.types', 2)]), '');
 
-        $request_type = !request()->has('type') ? ['income', 'expense'] : request('type');
+        $request_type = !request()->has('type') ? ['income', 'expense', 'transfer'] : request('type');
         $categories = Category::enabled()->type($request_type)->orderBy('name')->pluck('name', 'id');
 
         $transactions = Transaction::with('account', 'category', 'contact')->collect(['paid_at'=> 'desc']);

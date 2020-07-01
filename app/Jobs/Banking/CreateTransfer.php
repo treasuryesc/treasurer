@@ -33,11 +33,11 @@ class CreateTransfer extends Job
         $currencies = Currency::enabled()->pluck('rate', 'code')->toArray();
 
         $expense_currency_code = Account::where('id', $this->request->get('from_account_id'))->pluck('currency_code')->first();
-        $income_currency_code = Account::where('id', $this->request->get('to_account_id'))->pluck('currency_code')->first();
+        //$income_currency_code = Account::where('id', $this->request->get('to_account_id'))->pluck('currency_code')->first();
 
         $expense_transaction = Transaction::create([
             'company_id' => $this->request['company_id'],
-            'type' => 'expense',
+            'type' => 'transfer',
             'account_id' => $this->request->get('from_account_id'),
             'paid_at' => $this->request->get('transferred_at'),
             'currency_code' => $expense_currency_code,
@@ -48,7 +48,13 @@ class CreateTransfer extends Job
             'category_id' => Category::transfer(), // Transfer Category ID
             'payment_method' => $this->request->get('payment_method'),
             'reference' => $this->request->get('reference'),
+            'transfer_account' => $this->request->get('to_account_id'),
         ]);
+
+        /* Not necessary anymore since it's being all done
+           in App\Models\Banking\Transaction model
+           by passing transfer_account attribute
+
 
         // Convert amount if not same currency
         if ($expense_currency_code != $income_currency_code) {
@@ -81,7 +87,7 @@ class CreateTransfer extends Job
 
         $income_transaction = Transaction::create([
             'company_id' => $this->request['company_id'],
-            'type' => 'income',
+            'type' => 'transfer',
             'account_id' => $this->request->get('to_account_id'),
             'paid_at' => $this->request->get('transferred_at'),
             'currency_code' => $income_currency_code,
@@ -99,7 +105,8 @@ class CreateTransfer extends Job
             'expense_transaction_id' => $expense_transaction->id,
             'income_transaction_id' => $income_transaction->id,
         ]);
+        */
 
-        return $transfer;
+        return $expense_transaction->transfer();
     }
 }

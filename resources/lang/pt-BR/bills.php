@@ -7,14 +7,14 @@ return [
     'total_price'           => 'Valor Total',
     'due_date'              => 'Data de Vencimento',
     'order_number'          => 'Número',
-    'bill_from'             => 'Bill From',
+    'bill_from'             => 'Fatura de',
 
     'quantity'              => 'Quantidade',
     'price'                 => 'Preço',
     'sub_total'             => 'Subtotal',
     'discount'              => 'Desconto',
-    'item_discount'         => 'Linha de desconto',
-    'tax_total'             => 'Taxa',
+    'item_discount'         => 'Item de desconto',
+    'tax_total'             => 'Impostos',
     'total'                 => 'Total',
 
     'item_name'             => 'Nome(s) do(s) Item(s)',
@@ -30,7 +30,7 @@ return [
     'payments'              => 'Pagamentos',
     'add_payment'           => 'Novo Pagamento',
     'mark_paid'             => 'Marcar como pago',
-    'mark_received'         => 'Marcar como Recebida',
+    'mark_received'         => 'Marcar como recebido',
     'mark_cancelled'        => 'Marcar como cancelado',
     'download_pdf'          => 'Baixar em PDF',
     'send_mail'             => 'Enviar E-mail',
@@ -49,8 +49,8 @@ return [
     ],
 
     'messages' => [
-        'marked_received'   => 'Fatura marcada como paga',
-        'marked_paid'       => 'Fatura marcada como paga!',
+        'marked_received'   => 'Fatura marcada como recebida',
+        'marked_paid'       => 'Fatura marcada como paga',
         'marked_cancelled'  => 'Fatura marcada como cancelada',
         'draft'             => 'Este é um <b>RASCUNHO</b> de fatura e será refletida nos gráficos depois que ela for recebida.',
 

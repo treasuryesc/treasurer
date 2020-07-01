@@ -49,6 +49,7 @@ trait Import
         $id = isset($row['contact_id']) ? $row['contact_id'] : null;
 
         $type = !empty($type) ? $type : (!empty($row['type']) ? (($row['type'] == 'income') ? 'customer' : 'vendor') : 'customer');
+        $type = isset($row['contact_type']) ? $row['contact_type'] : $type;
 
         if (empty($row['contact_id']) && !empty($row['contact_email'])) {
             $id = $this->getContactIdFromEmail($row, $type);
@@ -126,7 +127,7 @@ trait Import
     public function getAccountIdFromName($row)
     {
         return Account::firstOrCreate([
-            'name'              => $row['account_name'],
+            'name'              => ucwords($row['account_name']),
         ], [
             'company_id'        => session('company_id'),
             'number'            => !empty($row['account_number']) ? $row['account_number'] : rand(1, 10000),
@@ -152,7 +153,7 @@ trait Import
     public function getCategoryIdFromName($row, $type)
     {
         return Category::firstOrCreate([
-            'name'              => $row['category_name'],
+            'name'              => ucfirst($row['category_name']),
         ], [
             'company_id'        => session('company_id'),
             'type'              => $type,
@@ -164,7 +165,7 @@ trait Import
     public function getContactIdFromEmail($row, $type)
     {
         return Contact::firstOrCreate([
-            'email'             => $row['contact_email'],
+            'email'             => strtolower($row['contact_email']),
         ], [
             'company_id'        => session('company_id'),
             'type'              => $type,
@@ -177,7 +178,7 @@ trait Import
     public function getContactIdFromName($row, $type)
     {
         return Contact::firstOrCreate([
-            'name'              => $row['contact_name'],
+            'name'              => ucwords($row['contact_name']),
         ], [
             'company_id'        => session('company_id'),
             'type'              => $type,

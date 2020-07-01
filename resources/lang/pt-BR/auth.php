@@ -4,22 +4,22 @@ return [
 
     'profile'               => 'Perfil',
     'logout'                => 'Sair',
-    'login'                 => 'Logar',
+    'login'                 => 'Login',
     'login_to'              => 'Entre para iniciar sua sessão',
     'remember_me'           => 'Lembrar-me',
     'forgot_password'       => 'Lembrar senha',
-    'reset_password'        => 'Resetar Senha',
+    'reset_password'        => 'Reiniciar senha',
     'enter_email'           => 'Entre com o seu endereço de e-mail',
     'current_email'         => 'E-mail atual',
-    'reset'                 => 'Resetar',
+    'reset'                 => 'Reiniciar',
     'never'                 => 'Nunca',
     'landing_page'          => 'Página inicial',
 
     'password' => [
         'current'           => 'Senha',
-        'current_confirm'   => 'Confirmação da Senha',
-        'new'               => 'Nova Senha',
-        'new_confirm'       => 'Confirmação da Nova Senha',
+        'current_confirm'   => 'Confirmação da senha',
+        'new'               => 'Nova senha',
+        'new_confirm'       => 'Confirmação da nova senha',
     ],
 
     'error' => [
