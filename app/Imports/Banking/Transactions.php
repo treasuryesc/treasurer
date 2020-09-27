@@ -5,11 +5,10 @@ namespace App\Imports\Banking;
 use App\Abstracts\Import;
 use App\Http\Requests\Banking\Transaction as Request;
 use App\Models\Banking\Transaction as Model;
-use App\Models\Setting\Category;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Events\AfterImport;
-use Illuminate\Support\Facades\DB;
+use App\Models\Banking\Account;
 
 class Transactions extends Import implements WithEvents
 {
@@ -49,8 +48,16 @@ class Transactions extends Import implements WithEvents
         if ($row['type'] == 'transfer') {
             $row['transfer_account'] = $this->getAccountIdFromName([
                 'account_name' => $row['transfer_account'],
-                'currency_code' => $row['currency_code'],
             ]);
+        }
+
+        if (!isset($row['currency_code'])) {
+            $row['currency_code'] = Account::find($row['account_id'])->currency_code;
+            $row['currency_rate'] = 1;
+        }
+
+        if (!isset($row['payment_method'])) {
+            $row['payment_method'] = setting('default.payment_method');
         }
 
         return $row;

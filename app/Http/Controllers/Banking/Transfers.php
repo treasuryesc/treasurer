@@ -14,6 +14,7 @@ use App\Utilities\Modules;
 use Date;
 use App\Http\Requests\Common\Import as ImportRequest;
 use App\Imports\Banking\Transfers as Import;
+use Carbon\Carbon;
 
 class Transfers extends Controller
 {
@@ -27,8 +28,8 @@ class Transfers extends Controller
         $data = [];
 
         $items = Transfer::with(
-            'expense_transaction', 'expense_transaction.account', 'income_transaction', 'income_transaction.account'
-        )->collect(['expense_transaction.paid_at' => 'desc']);
+            'expense_transaction', 'expense_transaction.account', 'income_transaction', 'income_transaction.account')
+            ->where('transactions.paid_at', '<=', Carbon::today())->collect(['expense_transaction.paid_at' => 'desc']);
 
         foreach ($items as $item) {
             $income_transaction = $item->income_transaction;

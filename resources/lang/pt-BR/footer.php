@@ -5,6 +5,6 @@ return [
     'version'               => 'Versão',
     'powered'               => 'Treasurer',
     'link'                  => 'https://treasurer.com.br',
-    'software'              => 'Sistema para ESC',
+    'software'              => 'O software para ESC',
 
 ];

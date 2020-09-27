@@ -10,6 +10,7 @@ use App\Jobs\Banking\DeleteTransaction;
 use App\Models\Banking\Account;
 use App\Models\Banking\Transaction;
 use App\Models\Setting\Category;
+use Carbon\Carbon;
 
 class Transactions extends Controller
 {
@@ -28,7 +29,7 @@ class Transactions extends Controller
         $request_type = !request()->has('type') ? ['income', 'expense', 'transfer'] : request('type');
         $categories = Category::enabled()->type($request_type)->orderBy('name')->pluck('name', 'id');
 
-        $transactions = Transaction::with('account', 'category', 'contact')->collect(['paid_at'=> 'desc']);
+        $transactions = Transaction::with('account', 'category', 'contact')->where('paid_at', '<=', Carbon::today())->collect(['paid_at'=> 'desc']);
 
         return view('banking.transactions.index', compact('transactions', 'accounts', 'types', 'categories'));
     }

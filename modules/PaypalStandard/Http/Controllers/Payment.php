@@ -96,7 +96,7 @@ class Payment extends PaymentController
         $response = $client->post($url, $paypal_request);
 
         if ($response->getStatusCode() != 200) {
-            $paypal_log->info('PAYPAL_STANDARD :: CURL failed ', $response->getBody()->getContents());
+            // $paypal_log->info('PAYPAL_STANDARD :: CURL failed ', $response->getBody()->getContents());
         } else {
             $response = $response->getBody()->getContents();
         }

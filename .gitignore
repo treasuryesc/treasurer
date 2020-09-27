@@ -91,6 +91,4 @@ _ide_helper.php
 .phpstorm.meta.php
 /storage/debugbar/*
 .phpunit.result.cache
-modules/*
-!modules/OfflinePayments
-!modules/PaypalStandard
+.htaccess
