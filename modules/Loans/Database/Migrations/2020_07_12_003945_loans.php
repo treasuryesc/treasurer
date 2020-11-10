@@ -18,12 +18,13 @@ class Loans extends Migration
         // 2 - Contrato sem fiador
         // 3 - Antecipação
         Schema::create('loan_types', function (Blueprint $table) {
-            $table->integer('company_id')->primary();           // id da empresa App\Models\Common\Company
-            $table->integer('id')->primary();                   // tipo de empréstimo 
-            $table->string('name');                             // descrição
+            $table->integer('company_id');           // id da empresa App\Models\Common\Company
+            $table->integer('id');                   // tipo de empréstimo 
+            $table->string('name');                  // descrição
             $table->json('attributes_schema');
             $table->timestamps();
             $table->softDeletes();
+            $table->primary(['company_id', 'id']);
         });
 
         // Status de empréstimo
@@ -31,11 +32,12 @@ class Loans extends Migration
         // 2 - Liberado
         // 3 - Encerrado
         Schema::create('loan_status', function (Blueprint $table) {
-            $table->integer('company_id')->primary();            // id da empresa App\Models\Common\Company
-            $table->integer('id')->primary();                    // status de empréstimo 
-            $table->string('name');                              // descrição
+            $table->integer('company_id');            // id da empresa App\Models\Common\Company
+            $table->integer('id');                    // status de empréstimo 
+            $table->string('name');                   // descrição
             $table->timestamps();
             $table->softDeletes();
+            $table->primary(['company_id', 'id']);
         });
 
         // Tipos de recebíveis
@@ -43,12 +45,13 @@ class Loans extends Migration
         // 2 - Crédito em conta
         // 3 - Cheque
         Schema::create('receivable_types', function (Blueprint $table) {
-            $table->integer('company_id')->primary();       // id da empresa App\Models\Common\Company
-            $table->integer('id')->primary();               // tipo de recebível
-            $table->string('name');                         // descrição
+            $table->integer('company_id');       // id da empresa App\Models\Common\Company
+            $table->integer('id');               // tipo de recebível
+            $table->string('name');              // descrição
             $table->json('attributes_schema');
             $table->timestamps();
             $table->softDeletes();
+            $table->primary(['company_id', 'id']);
         });
 
         // Status de recebíveis
@@ -56,11 +59,12 @@ class Loans extends Migration
         // 2 - Atrasado
         // 3 - Pago
         Schema::create('receivable_status', function (Blueprint $table) {
-            $table->integer('company_id')->primary();       // id da empresa App\Models\Common\Company
-            $table->integer('id')->primary();               // status de recebível
-            $table->string('name');                         // descrição
+            $table->integer('company_id');       // id da empresa App\Models\Common\Company
+            $table->integer('id');               // status de recebível
+            $table->string('name');              // descrição
             $table->timestamps();
             $table->softDeletes();
+            $table->primary(['company_id', 'id']);
         });
 
         // Contratos de empréstimo
@@ -87,8 +91,8 @@ class Loans extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('company_id', 'loan_number');
-            $table->index('customer_id');
+            $table->index(['company_id', 'contract']);
+            $table->index(['company_id', 'customer_id']);
             $table->unique(['company_id', 'contract', 'parent_id', 'deleted_at'], 'loans_uniq1');
         });
 
@@ -97,7 +101,7 @@ class Loans extends Migration
             $table->increments('id');                       // id do recebível
             $table->integer('company_id');                  // id da empresa App\Models\Common\Company
             $table->integer('loan_id');                     // id do empréstimo (tabela loans->id)
-            $table->integer('sequence');                    // número da parcela (sequencial 1, 2, 3...)
+            $table->integer('sequence');                      // número da parcela (sequencial 1, 2, 3...)
             $table->integer('customer_id');                 // id do cliente App\Models\Common\Contact
             $table->integer('type_id');                     // tipo de recebível (tabela receivable_types->id)
             $table->integer('status_id');                   // status do recebível (tabela receivable_status->id)
@@ -113,7 +117,7 @@ class Loans extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('company_id', 'loan_id', 'sequence');
+            $table->index(['company_id', 'loan_id', 'sequence']);
             $table->unique(['company_id', 'loan_id', 'sequence', 'deleted_at'], 'receivables_uniq1');
         });
 
@@ -132,7 +136,7 @@ class Loans extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('company_id', 'receivable_id');
+            $table->index(['company_id', 'receivable_id']);
         });
     }
 
@@ -145,7 +149,10 @@ class Loans extends Migration
     {
         Schema::drop('loans');
         Schema::drop('loan_types');
+        Schema::drop('loan_status');
         Schema::drop('receivables');
         Schema::drop('receivable_types');
+        Schema::drop('receivable_status');
+        Schema::drop('incomes');
     }
 }
