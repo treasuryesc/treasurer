@@ -1,0 +1,17 @@
+{
+    "alias": "operations",
+    "icon": "fa fa-cog",
+    "version": "1.0.0",
+    "category": "accounting",
+    "active": 1,
+    "providers": [
+        "Modules\\Operations\\Providers\\Event",
+        "Modules\\Operations\\Providers\\Main"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "reports": [],
+    "widgets": [],
+    "settings": []
+}

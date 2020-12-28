@@ -72,4 +72,11 @@ mix
     .js('resources/assets/js/views/wizard/taxes.js', 'public/js/wizard')
     .js('resources/assets/js/views/wizard/finish.js', 'public/js/wizard')
 
+    // Module Operations
+    .js('modules/operations/resources/assets/js/loan-types.js', 'public/js/modules/operations')
+    .js('modules/operations/resources/assets/js/receivable-types.js', 'public/js/modules/operations')
+    .js('modules/operations/resources/assets/js/loans.js', 'public/js/modules/operations')
+    .js('modules/operations/resources/assets/js/receivables.js', 'public/js/modules/operations')
+    .js('modules/operations/resources/assets/js/drops.js', 'public/js/modules/operations')
+
     .sass('resources/assets/sass/argon.scss', 'public/css');

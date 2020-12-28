@@ -11,6 +11,8 @@ use App\Models\Sale\Invoice;
 use App\Models\Setting\Category;
 use App\Models\Setting\Tax;
 use Illuminate\Database\Seeder;
+use Modules\Operations\Models\LoanStatus;
+use Modules\Operations\Models\ReceivableStatus;
 
 class SampleData extends Seeder
 {
@@ -60,6 +62,45 @@ class SampleData extends Seeder
 
         $this->command->info('');
         $this->command->info('Sample data created.');
+
+        //ADICIONAR LOANSTATUS e RECEIVABLESTATUS
+        LoanStatus::create([
+            'company_id' => 1,
+            'id' => 1,
+            'name' => 'Aberto',
+            'created_at' => now(),
+        ]);
+        LoanStatus::create([
+            'company_id' => 1,
+            'id' => 2,
+            'name' => 'Liberado',
+            'created_at' => now(),
+        ]);
+        LoanStatus::create([
+            'company_id' => 1,
+            'id' => 3,
+            'name' => 'Encerrado',
+            'created_at' => now(),
+        ]);
+
+        ReceivableStatus::create([
+            'company_id' => 1,
+            'id' => 1,
+            'name' => 'Aberto',
+            'created_at' => now(),
+        ]);
+        ReceivableStatus::create([
+            'company_id' => 1,
+            'id' => 2,
+            'name' => 'Atrasado',
+            'created_at' => now(),
+        ]);
+        ReceivableStatus::create([
+            'company_id' => 1,
+            'id' => 3,
+            'name' => 'Pago',
+            'created_at' => now(),
+        ]);
 
         Model::unguard();
     }

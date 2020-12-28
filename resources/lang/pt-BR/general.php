@@ -51,6 +51,7 @@ return [
     'templates'             => 'Modelo|Modelos',
     'sales'                 => 'Cliente|Clientes',
     'purchases'             => 'Fornecedor|Fornecedores',
+
     'vendordata'            => 'Cadastro|Cadastros',
     'customerdata'          => 'Cadastro|Cadastros',
     'welcome'               => 'Bem-vindo',
@@ -202,6 +203,28 @@ return [
         'transfers' => 'As transferências permitem que você mova dinheiro de uma conta para outra, caso elas usem ou não a mesma moeda.',
         'taxes' => 'Os impostos são usados para aplicar taxas adicionais às faturas e contas. Suas finanças são afetadas por esses impostos regulatórios.',
         'reconciliations' => 'A reconciliação bancária é um processo realizado para garantir que os registros bancários da sua empresa também estejam corretos.',
+
+        'operations' => [
+            'settings' => [
+                'loan-types' => 'Os tipos de empréstimos devem ser configurados para que o módulo de operações seja utilizado.',
+                'receivable-types' => 'Os tipos de recebíveis devem ser configurados para que o módulo de operações seja utilizado.',
+            ],
+            'loans' => 'Contratos de empréstimos podem ser criados podem ser criados a partir dessa área.',
+            'receivables' => 'Recebíveis podem ser criados podem ser criados a partir dessa área.',
+        ],
+    ],
+
+    'operations' => [
+        'settings' => [
+            'loan-types' => 'Tipo de Empréstimo|Tipos de Empréstimo',
+            'loan-type' => 'Tipo de Empréstimo',
+            'receivable-types' => 'Tipo de Recebível|Tipos de Recebíveis',
+            'receivable-type' => 'Tipo de Recebível',
+        ],
+        'loans' => 'Empréstimo|Empréstimos',
+        'loan' => 'Empréstimo',
+        'receivables' => 'Recebível|Recebíveis',
+        'receivable' => 'Recebível',
     ],
 
 ];
