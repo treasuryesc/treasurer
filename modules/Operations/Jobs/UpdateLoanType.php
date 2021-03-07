@@ -3,18 +3,12 @@
 namespace Modules\Operations\Jobs;
 
 use \App\Abstracts\Job;
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-
 use Modules\Operations\Models\LoanType;
 
 class UpdateLoanType extends Job
 {
     protected $loanType;
-    protected $id;
+    protected $loantype_id;
 
     protected $request;
 
@@ -23,9 +17,9 @@ class UpdateLoanType extends Job
      *
      * @param  $request
      */
-    public function __construct($request)
+    public function __construct($request, $loantype_id)
     {
-        $this->id = $request->id;
+        $this->loantype_id = $loantype_id;
         $this->request = $this->getRequestInstance($request);
     }
 
@@ -36,10 +30,8 @@ class UpdateLoanType extends Job
      */
     public function handle()
     {
-        \DB::transaction(function () {
-            $loanType = LoanType::where('company_id', $this->request->company_id)->where('id', $this->id)->first();
-            $loanType = $loanType->update($this->request->all());
+            $loanType = LoanType::where(['company_id' => $this->request->company_id, 'id' => $this->loantype_id]);
+            $loanType = $loanType->update($this->request->only(['id', 'name', 'attributes_schema']));
             return $loanType;
-        });
     }
 }

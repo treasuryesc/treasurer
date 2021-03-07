@@ -107,6 +107,10 @@ class Form extends Provider
             'cancel', 'col' => 'col-md-12',
         ]);
 
+        Facade::component('nextButtons', 'partials.form.next_buttons', [
+            'cancel', 'col' => 'col-md-12',
+        ]);
+
         Facade::component('recurring', 'partials.form.recurring', [
             'page', 'model' => null,
         ]);

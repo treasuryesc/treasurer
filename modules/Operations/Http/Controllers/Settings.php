@@ -4,6 +4,11 @@ namespace Modules\Operations\Http\Controllers;
 
 use App\Abstracts\Http\Controller;
 use App\Abstracts\Http\FormRequest;
+
+use Modules\Operations\Requests\LoanTypeRequest;
+use Modules\Operations\Requests\ReceivableTypeRequest;
+
+use Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Operations\Models\LoanType;
@@ -46,36 +51,41 @@ class Settings extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param LoanTypeRequest $request
      * @return Response
      */
-    public function loanTypesStore(Request $request)
+    public function loanTypesStore(LoanTypeRequest $request)
     {
         $response = $this->ajaxDispatch(new CreateLoanType($request));
+        $response['redirect'] = route('operations.settings.loan-types.create');
 
         if ($response['success']) {
-            $response['redirect'] = route('operations.settings.loan-types.index');
-            $message = trans('messages.success.added', ['type' => trans_choice('general.operations.settings.loan-type', 1)]);
+            $message = trans('messages.success.added', ['type' => trans('operations::general.loan-type')]);
+
             flash($message)->success();
+            return redirect($response['redirect'])->with('Sucesso', $message) ;
         } else {
-            $response['redirect'] = route('operations.settings.loan-types.index');
             $message = $response['message'];
+
             flash($message)->error();
+            return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
         }
 
-        return response()->json($response);
+        $message = 'Erro ao inserir registro';
+        flash($message)->error();
+        return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Int  $id
+     * @param  Int  $loantype_id
      *
      * @return Response
      */
-    public function loanTypesEdit($id)
+    public function loanTypesEdit($loantype_id)
     {
-        $loantype = LoanType::where('company_id', session('company_id'))->where('id', $id)->first();
+        $loantype = LoanType::where('company_id', session('company_id'))->where('id', $loantype_id)->firstOrFail();
         return view('operations::settings.loan-types.edit', compact('loantype'));
     }
 
@@ -83,25 +93,32 @@ class Settings extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
+     * @param  LoanTypeRequest $request
+     * @param  Int $id
      *
      * @return Response
      */
-    public function loanTypesUpdate(Request $request)
+    public function loanTypesUpdate(LoanTypeRequest $request, $loantype_id)
     {
-        $response = $this->ajaxDispatch(new UpdateLoanType($request));
+        $response = $this->ajaxDispatch(new UpdateLoanType($request, $loantype_id));
+        $response['redirect'] = route('operations.settings.loan-types.edit', ['loantype_id' => $loantype_id]);
 
         if ($response['success']) {
-            $response['redirect'] = route('operations.settings.loan-types.index');
-            $message = trans('messages.success.updated', ['type' => $request->name]);
+            $response['redirect'] = route('operations.settings.loan-types.edit', ['loantype_id' => $request->id]);
+            $message = trans('messages.success.updated', ['type' => trans('operations::general.loan-type')]);
+
             flash($message)->success();
+            return redirect($response['redirect'])->with('Sucesso', $message) ;
         } else {
-            $response['redirect'] = route('operations.settings.loan-types.edit', $request->id);
             $message = $response['message'];
+
             flash($message)->error();
+            return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
         }
 
-        return response()->json($response);
+        $message = 'Erro ao atualizar registro';
+        flash($message)->error();
+        return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
     }
 
 
@@ -126,36 +143,41 @@ class Settings extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param ReceivableTypeRequest $request
      * @return Response
      */
-    public function receivableTypesStore(Request $request)
+    public function receivableTypesStore(ReceivableTypeRequest $request)
     {
         $response = $this->ajaxDispatch(new CreateReceivableType($request));
+        $response['redirect'] = route('operations.settings.receivable-types.create');
 
         if ($response['success']) {
-            $response['redirect'] = route('operations.settings.receivable-types.index');
-            $message = trans('messages.success.added', ['type' => trans_choice('general.operations.settings.receivable-type', 1)]);
+            $message = trans('messages.success.added', ['type' => trans('operations::general.receivable-type')]);
+
             flash($message)->success();
+            return redirect($response['redirect'])->with('Sucesso', $message) ;
         } else {
-            $response['redirect'] = route('operations.settings.receivable-types.index');
             $message = $response['message'];
+
             flash($message)->error();
+            return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
         }
 
-        return response()->json($response);
+        $message = 'Erro ao inserir registro';
+        flash($message)->error();
+        return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Int  $id
+     * @param  Int  $receivabletype_id
      *
      * @return Response
      */
-    public function receivableTypesEdit($id)
+    public function receivableTypesEdit($receivabletype_id)
     {
-        $receivabletype = ReceivableType::where('company_id', session('company_id'))->where('id', $id)->first();
+        $receivabletype = ReceivableType::where('company_id', session('company_id'))->where('id', $receivabletype_id)->first();
         return view('operations::settings.receivable-types.edit', compact('receivabletype'));
     }
 
@@ -163,24 +185,31 @@ class Settings extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
+     * @param  ReceivableTypeRequest $request
+     * @param  Int $id
      *
      * @return Response
      */
-    public function receivableTypesUpdate(Request $request)
+    public function receivableTypesUpdate(ReceivableTypeRequest $request, $receivabletype_id)
     {
-        $response = $this->ajaxDispatch(new UpdateReceivableType($request));
+        $response = $this->ajaxDispatch(new UpdateReceivableType($request, $receivabletype_id));
+        $response['redirect'] = route('operations.settings.receivable-types.edit', ['receivabletype_id' => $receivabletype_id]);
 
         if ($response['success']) {
-            $response['redirect'] = route('operations.settings.receivable-types.index');
-            $message = trans('messages.success.updated', ['type' => $request->name]);
+            $response['redirect'] = route('operations.settings.receivable-types.edit', ['receivabletype_id' => $request->id]);
+            $message = trans('messages.success.updated', ['type' => trans('operations::general.receivable-type')]);
+
             flash($message)->success();
+            return redirect($response['redirect'])->with('Sucesso', $message) ;
         } else {
-            $response['redirect'] = route('operations.settings.receivable-types.edit', $request->id);
             $message = $response['message'];
+
             flash($message)->error();
+            return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
         }
 
-        return response()->json($response);
+        $message = 'Erro ao atualizar registro';
+        flash($message)->error();
+        return redirect($response['redirect'])->withInput($request->all())->with('Erro', $message);
     }
 }

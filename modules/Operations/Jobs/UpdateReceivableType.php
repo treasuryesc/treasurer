@@ -3,13 +3,12 @@
 namespace Modules\Operations\Jobs;
 
 use \App\Abstracts\Job;
-
 use Modules\Operations\Models\ReceivableType;
 
 class UpdateReceivableType extends Job
 {
     protected $receivableType;
-    protected $id;
+    protected $receivabletype_id;
 
     protected $request;
 
@@ -18,9 +17,9 @@ class UpdateReceivableType extends Job
      *
      * @param  $request
      */
-    public function __construct($request)
+    public function __construct($request, $receivabletype_id)
     {
-        $this->id = $request->id;
+        $this->receivabletype_id = $receivabletype_id;
         $this->request = $this->getRequestInstance($request);
     }
 
@@ -32,7 +31,7 @@ class UpdateReceivableType extends Job
     public function handle()
     {
         \DB::transaction(function () {
-            $receivableType = ReceivableType::where('company_id', $this->request->company_id)->where('id', $this->id)->first();
+            $receivableType = ReceivableType::where('company_id', $this->request->company_id)->where('id', $this->receivabletype_id)->firstOrFail();
             $receivableType = $receivableType->update($this->request->all());
             return $receivableType;
         });

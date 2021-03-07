@@ -10,7 +10,7 @@
                     @permission('read-operations-settings-loan-types')
                     <a href="{{route('operations.settings.loan-types.index')}}">Configurar Tipos de Empréstimos</a><br><br>
                     @endpermission
-                    @permission('read-operations-settings-receivables')
+                    @permission('read-operations-settings-receivable-types')
                     <a href="{{route('operations.settings.receivable-types.index')}}">Configurar Tipos de Recebíveis</a><br><br>
                     @endpermission
                 </div>

@@ -32,7 +32,7 @@ class Loan extends Model
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function Contact() {
+    public function Customer() {
         return $this->belongsTo(Contact::class, 'customer_id');
     }
 

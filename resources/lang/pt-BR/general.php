@@ -100,6 +100,7 @@ return [
     'switch'                => 'Trocar',
     'color'                 => 'Cor',
     'save'                  => 'Salvar',
+    'next'                  => 'Próximo',
     'confirm'               => 'Confirmar',
     'cancel'                => 'Cancelar',
     'loading'               => 'Carregando...',
@@ -209,22 +210,18 @@ return [
                 'loan-types' => 'Os tipos de empréstimos devem ser configurados para que o módulo de operações seja utilizado.',
                 'receivable-types' => 'Os tipos de recebíveis devem ser configurados para que o módulo de operações seja utilizado.',
             ],
-            'loans' => 'Contratos de empréstimos podem ser criados podem ser criados a partir dessa área.',
-            'receivables' => 'Recebíveis podem ser criados podem ser criados a partir dessa área.',
+            'loans' => 'Contratos de empréstimos podem ser criados a partir dessa área.',
+            'receivables' => 'Recebíveis podem ser criados a partir dessa área.',
         ],
     ],
 
     'operations' => [
         'settings' => [
             'loan-types' => 'Tipo de Empréstimo|Tipos de Empréstimo',
-            'loan-type' => 'Tipo de Empréstimo',
             'receivable-types' => 'Tipo de Recebível|Tipos de Recebíveis',
-            'receivable-type' => 'Tipo de Recebível',
         ],
         'loans' => 'Empréstimo|Empréstimos',
-        'loan' => 'Empréstimo',
         'receivables' => 'Recebível|Recebíveis',
-        'receivable' => 'Recebível',
     ],
 
 ];

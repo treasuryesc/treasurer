@@ -175,12 +175,12 @@ class Operations extends Migration
      */
     public function down()
     {
-        Schema::drop('loans');
-        Schema::drop('loan_types');
-        Schema::drop('loan_status');
-        Schema::drop('receivables');
-        Schema::drop('receivable_types');
-        Schema::drop('receivable_status');
         Schema::drop('incomes');
+        Schema::drop('receivables');
+        Schema::drop('loans');
+        Schema::drop('receivable_status');
+        Schema::drop('receivable_types');
+        Schema::drop('loan_status');
+        Schema::drop('loan_types');
     }
 }

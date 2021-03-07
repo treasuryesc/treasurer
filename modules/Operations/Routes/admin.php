@@ -15,15 +15,15 @@ Route::group([
             Route::get('loan-types', 'Settings@loanTypes')->name('loan-types.index');
             Route::get('loan-types/create', 'Settings@loanTypesCreate')->name('loan-types.create');
             Route::post('loan-types/store', 'Settings@loanTypesStore')->name('loan-types.store');
-            Route::get('loan-types/{id}/edit', 'Settings@loanTypesEdit')->name('loan-types.edit');
-            Route::patch('loan-types/update', 'Settings@loanTypesUpdate')->name('loan-types.update');
+            Route::get('loan-types/{loantype_id}/edit', 'Settings@loanTypesEdit')->name('loan-types.edit');
+            Route::patch('loan-types/{loantype_id}/update', 'Settings@loanTypesUpdate')->name('loan-types.update');
 
             //RECEIVABLE TYPES
             Route::get('receivable-types', 'Settings@receivableTypes')->name('receivable-types.index');
             Route::get('receivable-types/create', 'Settings@receivableTypesCreate')->name('receivable-types.create');
             Route::post('receivable-types/store', 'Settings@receivableTypesStore')->name('receivable-types.store');
-            Route::get('receivable-types/{id}/edit', 'Settings@receivableTypesEdit')->name('receivable-types.edit');
-            Route::patch('receivable-types/update', 'Settings@receivableTypesUpdate')->name('receivable-types.update');
+            Route::get('receivable-types/{receivabletype_id}/edit', 'Settings@receivableTypesEdit')->name('receivable-types.edit');
+            Route::patch('receivable-types/{receivabletype_id}/update', 'Settings@receivableTypesUpdate')->name('receivable-types.update');
         });
     });
     //RECEIVABLES
@@ -37,9 +37,10 @@ Route::group([
         Route::group(['prefix' => 'loans', 'as' => 'loans.'], function () {
             Route::get('/', 'Loans@index')->name('index');
             Route::get('create', 'Loans@create')->name('create');
+            Route::get('create-step2', 'Loans@createStep2')->name('create-step2');
             Route::post('store', 'Loans@store')->name('store');
-            Route::get('{id}/edit', 'Loans@edit')->name('edit');
-            Route::patch('update', 'Loans@update')->name('update');
+            Route::get('{loan_id}/edit', 'Loans@edit')->name('edit');
+            Route::patch('{loan_id}/update', 'Loans@update')->name('update');
         });
     });
     //DROPS

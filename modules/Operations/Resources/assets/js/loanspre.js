@@ -26,7 +26,7 @@ const app = new Vue({
 
     data: function () {
         return {
-            form: new Form('loan'),
+            form: new Form('loanpre'),
         }
     }
 });

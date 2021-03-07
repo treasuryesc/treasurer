@@ -3,11 +3,7 @@
 namespace Modules\Operations\Jobs;
 
 use \App\Abstracts\Job;
-//use Illuminate\Bus\Queueable;
-//use Illuminate\Queue\SerializesModels;
-//use Illuminate\Queue\InteractsWithQueue;
-//use Illuminate\Contracts\Queue\ShouldQueue;
-//use Illuminate\Foundation\Bus\Dispatchable;
+use Debugbar;
 
 use Modules\Operations\Models\LoanType;
 
@@ -34,10 +30,14 @@ class CreateLoanType extends Job
      */
     public function handle()
     {
-        \DB::transaction(function () {
-            $this->loanType = LoanType::create($this->request->all());
-        });
-
+        try {
+            \DB::transaction(function () {
+                $this->loanType = LoanType::create($this->request->all());
+            });
+        } catch (\Http\Client\Exception $e) {
+            Debugbar::addMessage($e->getMessage());
+            return false;
+        }
         return $this->loanType;
     }
 }

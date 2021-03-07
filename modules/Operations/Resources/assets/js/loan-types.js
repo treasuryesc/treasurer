@@ -13,7 +13,6 @@ import DashboardPlugin from './../../../../../resources/assets/js/plugins/dashbo
 import Global from './../../../../../resources/assets/js/mixins/global';
 
 import Form from './../../../../../resources/assets/js/plugins/form';
-import BulkAction from './../../../../../resources/assets/js/plugins/bulk-action';
 
 // plugin setup
 Vue.use(DashboardPlugin);
@@ -28,7 +27,6 @@ const app = new Vue({
     data: function () {
         return {
             form: new Form('loan-type'),
-            bulk_action: new BulkAction('loan-types')
         }
     },
 

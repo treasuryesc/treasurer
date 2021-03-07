@@ -84,6 +84,11 @@ class Permissions extends Seeder
                 'widgets-total-expenses' => 'r',
                 'widgets-total-income' => 'r',
                 'widgets-total-profit' => 'r',
+                'operations-settings' => 'r',
+                'operations-settings-loan-types' => 'c,r,u',
+                'operations-settings-receivable-types' => 'c,r,u',
+                'operations-loans' => 'c,r,u',
+                'operations-receivables' => 'c,r,u',
             ],
             'manager' => [
                 'admin-panel' => 'r',

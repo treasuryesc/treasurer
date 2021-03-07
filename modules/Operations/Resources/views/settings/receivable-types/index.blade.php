@@ -3,7 +3,7 @@
 @section('title', trans('operations::general.receivable-types'))
 
 @section('new_button')
-    @permission('create-operations-settings-receivables')
+    @permission('create-operations-settings-receivable-types')
     <span><a href="{{ route('operations.settings.receivable-types.create') }}" class="btn btn-success btn-sm header-button-top"><span class="fa fa-plus"></span> &nbsp;{{ trans('general.add_new') }}</a></span>
     @endpermission
 @endsection
@@ -32,7 +32,7 @@
                                         <i class="fa fa-ellipsis-h text-muted"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        @permission('update-operations-settings-receivables')
+                                        @permission('update-operations-settings-receivable-types')
                                         <a class="dropdown-item" href="{{ route('operations.settings.receivable-types.edit', $item->id) }}">{{ trans('general.edit') }}</a>
                                         @endpermission
                                     </div>

@@ -75,7 +75,8 @@ mix
     // Module Operations
     .js('modules/operations/resources/assets/js/loan-types.js', 'public/js/modules/operations')
     .js('modules/operations/resources/assets/js/receivable-types.js', 'public/js/modules/operations')
-    .js('modules/operations/resources/assets/js/loans.js', 'public/js/modules/operations')
+    .js('modules/operations/resources/assets/js/loanspre.js', 'public/js/modules/operations')
+    .js('modules/operations/resources/assets/js/loans.js', 'public/js/modules/operations/loans.min.js')
     .js('modules/operations/resources/assets/js/receivables.js', 'public/js/modules/operations')
     .js('modules/operations/resources/assets/js/drops.js', 'public/js/modules/operations')
 
